@@ -13,7 +13,7 @@ function App() {
   const [todoText, setTodoText] = React.useState<string>('')
   const [todos, setTodo] = React.useState<ITodoList>([])
 
-  const handleAddTodo = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddTodo = () => {
     const td: ITodo = { todoText: todoText }
     todos.push(td)
     setTodo(todos)
@@ -23,8 +23,6 @@ function App() {
   const handleType = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodoText(event.target.value)
   }
-
-
 
   return (
     <div className="App">
