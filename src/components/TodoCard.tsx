@@ -5,6 +5,7 @@ type TodoCardProps = {
     objectID: number
     removeFn: (index: number) => void;
     doneFn: (index: number) => void;
+    done?: boolean;
 }
 
 const TodoCard = (props: TodoCardProps) => {
@@ -13,8 +14,8 @@ const TodoCard = (props: TodoCardProps) => {
         <div>
             <p>
                 {props.todoText}
-                <button id="delete" onClick={() => props.removeFn(props.objectID)}>❌</button>
-                <button id="done" onClick={() => props.doneFn(props.objectID)}>✅</button>
+                {props.done && <button id="delete" onClick={() => props.removeFn(props.objectID)}>❌</button>}
+                {props.done && <button id="done" onClick={() => props.doneFn(props.objectID)}>✅</button>}
             </p>
         </div >
     )

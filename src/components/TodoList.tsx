@@ -3,7 +3,7 @@ import { TodoCard } from './TodoCard'
 
 interface ITodo {
     todoText: string,
-    objectID: number
+    objectID: number,
 }
 
 interface ITodoList extends Array<ITodo> { }
@@ -44,6 +44,7 @@ const TodoList = () => {
         doneTodos.push(...todos.filter(todo => todo.objectID === objectID));
         setDoneTodos(doneTodos);
         handleRemoveTodo(objectID);
+        console.log('done', doneTodos);
     }
 
     const deleteAll = (alsoDone: boolean) => {
@@ -58,7 +59,7 @@ const TodoList = () => {
             <p>TODOS</p>
             <ul>
                 {todos.map((item) => (
-                    <TodoCard key={item.objectID} todoText={item.todoText} objectID={item.objectID} removeFn={handleRemoveTodo} doneFn={handleTodoDone} />
+                    <TodoCard key={item.objectID} todoText={item.todoText} objectID={item.objectID} removeFn={handleRemoveTodo} doneFn={handleTodoDone} done={true} />
                 ))
                 }
             </ul>
