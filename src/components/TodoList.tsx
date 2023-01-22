@@ -46,8 +46,11 @@ const TodoList = () => {
         handleRemoveTodo(objectID);
     }
 
-    const handleReset = () => {
+    const deleteAll = (alsoDone: boolean) => {
         setTodos([])
+        if (alsoDone) {
+            setDoneTodos([])
+        }
     }
 
     return (
@@ -72,7 +75,8 @@ const TodoList = () => {
                     }
                 </ul>
             </div>
-            <button id="reset" onClick={handleReset}>Reset</button>
+            <button id="deleteTodos" onClick={() => deleteAll(false)}>Delete not done</button>
+            <button id="deleteAllTodos" onClick={() => deleteAll(true)}>Delete all</button>
         </div>
     )
 }
