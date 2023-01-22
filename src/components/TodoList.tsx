@@ -46,6 +46,10 @@ const TodoList = () => {
         handleRemoveTodo(objectID);
     }
 
+    const handleReset = () => {
+        setTodos([])
+    }
+
     return (
         <div>
             <p>TODOS</p>
@@ -68,6 +72,7 @@ const TodoList = () => {
                     }
                 </ul>
             </div>
+            <button id="reset" onClick={handleReset}>Reset</button>
         </div>
     )
 }
