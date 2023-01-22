@@ -1,5 +1,10 @@
+import * as React from 'react';
+
 type TodoCardProps = {
     todoText: string
+    objectID: number
+    removeFn: (index: number) => void;
+    doneFn: (index: number) => void;
 }
 
 const TodoCard = (props: TodoCardProps) => {
@@ -8,10 +13,10 @@ const TodoCard = (props: TodoCardProps) => {
         <div>
             <p>
                 {props.todoText}
-                <button id="delete">❌</button>
-                <button id="done">✅</button>
+                <button id="delete" onClick={() => props.removeFn(props.objectID)}>❌</button>
+                <button id="done" onClick={() => props.doneFn(props.objectID)}>✅</button>
             </p>
-        </div>
+        </div >
     )
 
 }

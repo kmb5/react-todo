@@ -12,13 +12,17 @@ interface ITodoList extends Array<ITodo> { }
 const TodoList = () => {
 
     const [todoText, setTodoText] = React.useState<string>('');
-    const [todos, setTodo] = React.useState<ITodoList>([]);
+    const [todos, setTodos] = React.useState<ITodoList>([]);
+    const [doneTodos, setDoneTodos] = React.useState<ITodoList>([]);
     const [oID, setOID] = React.useState<number>(0);
 
     const handleAddTodo = () => {
+        if (todoText === "") {
+            return;
+        }
         const td: ITodo = { todoText: todoText, objectID: handleSetOID() }
         todos.push(td)
-        setTodo(todos)
+        setTodos(todos)
         setTodoText('')
         console.log(todos)
     }
@@ -32,17 +36,37 @@ const TodoList = () => {
         return oID
     }
 
+    const handleRemoveTodo = (objectID: number) => {
+        setTodos(todos.filter(todo => todo.objectID !== objectID))
+    }
+
+    const handleTodoDone = (objectID: number) => {
+        doneTodos.push(...todos.filter(todo => todo.objectID === objectID));
+        setDoneTodos(doneTodos);
+        handleRemoveTodo(objectID);
+    }
+
     return (
         <div>
+            <p>TODOS</p>
             <ul>
                 {todos.map((item) => (
-                    <TodoCard key={item.objectID} todoText={item.todoText} />
+                    <TodoCard key={item.objectID} todoText={item.todoText} objectID={item.objectID} removeFn={handleRemoveTodo} doneFn={handleTodoDone} />
                 ))
                 }
             </ul>
             <div>
                 <input id="todoText" type="text" placeholder="type something..." onChange={handleType} value={todoText} />
                 <button id="addTodo" onClick={handleAddTodo}>Add</button>
+            </div>
+            <div>
+                <p>DONE</p>
+                <ul>
+                    {doneTodos.map((item) => (
+                        <TodoCard key={item.objectID} todoText={item.todoText} objectID={item.objectID} removeFn={handleRemoveTodo} doneFn={handleTodoDone} />
+                    ))
+                    }
+                </ul>
             </div>
         </div>
     )
