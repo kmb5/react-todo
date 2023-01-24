@@ -8,23 +8,35 @@ interface ITodo {
 
 interface ITodoList extends Array<ITodo> { }
 
+const getObjectFromLocalStorage = (key: string) => {
+    const obj = localStorage.getItem(key)
+    if (typeof obj === 'string') {
+        return JSON.parse(obj)
+    }
+}
 
 const TodoList = () => {
 
     const [todoText, setTodoText] = React.useState<string>('');
-    const [todos, setTodos] = React.useState<ITodoList>([]);
-    const [doneTodos, setDoneTodos] = React.useState<ITodoList>([]);
+    const [todos, setTodos] = React.useState<ITodoList>(getObjectFromLocalStorage('todos') || []);
+    const [doneTodos, setDoneTodos] = React.useState<ITodoList>(getObjectFromLocalStorage('doneTodos') || []);
     const [oID, setOID] = React.useState<number>(0);
+
+    React.useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }, [todos])
+
+    React.useEffect(() => {
+        localStorage.setItem('doneTodos', JSON.stringify(doneTodos));
+    }, [doneTodos])
 
     const handleAddTodo = () => {
         if (todoText === "") {
             return;
         }
         const td: ITodo = { todoText: todoText, objectID: handleSetOID() }
-        todos.push(td)
-        setTodos(todos)
+        setTodos([...todos, td])
         setTodoText('')
-        console.log(todos)
     }
 
     const handleType = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,8 +53,8 @@ const TodoList = () => {
     }
 
     const handleTodoDone = (objectID: number) => {
-        doneTodos.push(...todos.filter(todo => todo.objectID === objectID));
-        setDoneTodos(doneTodos);
+        const newDoneTodos = todos.filter(todo => todo.objectID === objectID);
+        setDoneTodos([...doneTodos, ...newDoneTodos]);
         handleRemoveTodo(objectID);
         console.log('done', doneTodos);
     }
